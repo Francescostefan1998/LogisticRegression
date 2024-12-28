@@ -22,6 +22,8 @@ X_test_std = sc.transform(X_test)
 
 X_train_01_subset = X_train_std[(y_train == 0) | (y_train == 1)]
 y_train_01_subset = y_train[(y_train == 0) | (y_train == 1)]
+print(f'X subset : {X_train_01_subset}')
+print(f'y labels : {y_train_01_subset}')
 lrgd = LogisticRegressionGD(eta = 0.3, n_iter = 1000, random_state = 1)
 
 def plot_decision_regions(X, y, classifier, test_idx=None,
@@ -69,5 +71,18 @@ plot_decision_regions(X = X_train_01_subset, y=y_train_01_subset, classifier = l
 plt.xlabel('Petal length [standardized]')
 plt.ylabel('Petal width [standardized]')
 plt.legend(loc = 'upper left')
+plt.tight_layout()
+plt.show()
+
+
+X_combined_std = np.vstack((X_train_std, X_test_std))
+y_combined = np.hstack((y_train, y_test))
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression(C=100.0, solver='lbfgs', multi_class='ovr')
+lr.fit(X_train, y_train)
+plot_decision_regions(X_combined_std, y_combined, classifier=lr, test_idx=range(105, 150))
+plt.xlabel('Petal length [standardized]')
+plt.ylabel('Petal width [standardized]')
+plt.legend(loc='upper left')
 plt.tight_layout()
 plt.show()
