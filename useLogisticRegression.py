@@ -97,6 +97,15 @@ lr.fit(X_train_std, y_train)
 lr.predict_proba(X_test_std[:3, :])
 print(f'Extracted values to test the probability {X_test_std[:3, :]}')
 print(f'Predict proba {lr.predict_proba(X_test_std[:3, :])}')
+# test if the sum for each line is equal to 1
+print(f'Sum: {lr.predict_proba(X_test_std[:3, :]).sum(axis= 1)}')
+
+print(f'ARG MAX: {lr.predict_proba(X_test_std[:3, :]).argmax(axis= 1)}') # check the max probability
+
+print(f'Obtaining the same by using the predict method {lr.predict(X_test_std[:3, :])}')
+
+# in order to take a single check the following example
+print(f'Single row: {lr.predict(X_test_std[0, :].reshape(1, -1))}')
 # original_coef = lr.coef_.copy()
 # original_intercept = lr.intercept_.copy()
 # print("Original Coefficients:\n", original_coef)
