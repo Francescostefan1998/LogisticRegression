@@ -38,6 +38,7 @@ def plot_decision_regions(X, y, classifier, test_idx=None,
     xx1, xx2 = np.meshgrid(np.arange(x1_min, x1_max, resolution),
                            np.arange(x2_min, x2_max, resolution))
     lab = classifier.predict(np.array([xx1.ravel(), xx2.ravel()]).T)
+    print(lab)
     lab = lab.reshape(xx1.shape)
     plt.contourf(xx1, xx2, lab, alpha=0.3, cmap=cmap)
     plt.xlim(xx1.min(), xx1.max())
@@ -88,11 +89,32 @@ for e in range(len(X_test_std)):
 # print(f'y combined : {y_combined}')
 from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression(C=100.0, solver='lbfgs')
+print("Model coefficients:")
+#print(lr.coef_)
+print("Model intercept:")
+#print(lr.intercept_)
+lr.fit(X_train_std, y_train)
+lr.predict_proba(X_test_std[:3, :])
+print(f'Extracted values to test the probability {X_test_std[:20, :]}')
+print(f'Predict proba {lr.predict_proba(X_test_std[:20, :])}')
+original_coef = lr.coef_.copy()
+original_intercept = lr.intercept_.copy()
+print("Original Coefficients:\n", original_coef)
+print("Original Intercept:\n", original_intercept)
 
-lr.fit(X_train, y_train)
+# Example: Scale the coefficients by 0.5
+# modified_coef = original_coef * 8
+# modified_intercept = original_intercept # + 50  # Offset intercept
+
+# lr.coef_ = modified_coef
+# lr.intercept_ = modified_intercept
+
+
 plot_decision_regions(X_combined_std, y_combined, classifier=lr, test_idx=range(105, 150))
 plt.xlabel('Petal length [standardized]')
 plt.ylabel('Petal width [standardized]')
 plt.legend(loc='upper left')
 plt.tight_layout()
 plt.show()
+
+# still not working 
