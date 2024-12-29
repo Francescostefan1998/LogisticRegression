@@ -79,28 +79,28 @@ def plot_decision_regions(X, y, classifier, test_idx=None,
 X_combined_std = np.vstack((X_train_std, X_test_std))
 y_combined = np.hstack((y_train, y_test))
 
-for i in range(len(X_train_std)):
-    print(f'Printing the {i} sample : {X_train_std[i]} label: {y_combined[i]}')
+# for i in range(len(X_train_std)):
+#     print(f'Printing the {i} sample : {X_train_std[i]} label: {y_combined[i]}')
 
-for e in range(len(X_test_std)):
-    print(f'Printing the {e} sample : {X_test_std[e]} label: {y_combined[e + len(X_train_std)]}')
+# for e in range(len(X_test_std)):
+#     print(f'Printing the {e} sample : {X_test_std[e]} label: {y_combined[e + len(X_train_std)]}')
 
 # print(f'X combined std : {X_combined_std}')
 # print(f'y combined : {y_combined}')
 from sklearn.linear_model import LogisticRegression
-lr = LogisticRegression(C=100.0, solver='lbfgs')
-print("Model coefficients:")
-#print(lr.coef_)
-print("Model intercept:")
+lr = LogisticRegression(C=100.0, solver='lbfgs', multi_class='ovr')
+# print("Model coefficients:")
+# #print(lr.coef_)
+# print("Model intercept:")
 #print(lr.intercept_)
 lr.fit(X_train_std, y_train)
 lr.predict_proba(X_test_std[:3, :])
-print(f'Extracted values to test the probability {X_test_std[:20, :]}')
-print(f'Predict proba {lr.predict_proba(X_test_std[:20, :])}')
-original_coef = lr.coef_.copy()
-original_intercept = lr.intercept_.copy()
-print("Original Coefficients:\n", original_coef)
-print("Original Intercept:\n", original_intercept)
+print(f'Extracted values to test the probability {X_test_std[:3, :]}')
+print(f'Predict proba {lr.predict_proba(X_test_std[:3, :])}')
+# original_coef = lr.coef_.copy()
+# original_intercept = lr.intercept_.copy()
+# print("Original Coefficients:\n", original_coef)
+# print("Original Intercept:\n", original_intercept)
 
 # Example: Scale the coefficients by 0.5
 # modified_coef = original_coef * 8
