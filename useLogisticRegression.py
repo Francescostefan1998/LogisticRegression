@@ -126,4 +126,18 @@ plt.legend(loc='upper left')
 plt.tight_layout()
 plt.show()
 
-# still not working 
+weights, params = [], []
+for c in np.arange(-5, 5):
+    lr = LogisticRegression(C=10.**c, multi_class='ovr')
+    lr.fit(X_train_std, y_train)
+    weights.append(lr.coef_[1])
+    params.append(10.**c)
+
+weights = np.array(weights)
+plt.plot(params, weights[:, 0], label='Petal length')
+plt.plot(params, weights[:, 1], linestyle='--', label='Petal width')
+plt.ylabel('Weight coefficient')
+plt.xlabel('C')
+plt.legend(loc='upper left')
+plt.xscale('log')
+plt.show()
