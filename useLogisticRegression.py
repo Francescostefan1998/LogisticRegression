@@ -87,70 +87,97 @@ y_combined = np.hstack((y_train, y_test))
 
 # print(f'X combined std : {X_combined_std}')
 # print(f'y combined : {y_combined}')
-from sklearn.linear_model import LogisticRegression
-lr = LogisticRegression(C=100.0, solver='lbfgs', multi_class='ovr')
-# print("Model coefficients:")
-# #print(lr.coef_)
-# print("Model intercept:")
-#print(lr.intercept_)
-lr.fit(X_train_std, y_train)
-lr.predict_proba(X_test_std[:3, :])
-print(f'Extracted values to test the probability {X_test_std[:3, :]}')
-print(f'Predict proba {lr.predict_proba(X_test_std[:3, :])}')
-# test if the sum for each line is equal to 1
-print(f'Sum: {lr.predict_proba(X_test_std[:3, :]).sum(axis= 1)}')
+# from sklearn.linear_model import LogisticRegression
+# lr = LogisticRegression(C=100.0, solver='lbfgs', multi_class='ovr')
+# # print("Model coefficients:")
+# # #print(lr.coef_)
+# # print("Model intercept:")
+# #print(lr.intercept_)
+# lr.fit(X_train_std, y_train)
+# lr.predict_proba(X_test_std[:3, :])
+# print(f'Extracted values to test the probability {X_test_std[:3, :]}')
+# print(f'Predict proba {lr.predict_proba(X_test_std[:3, :])}')
+# # test if the sum for each line is equal to 1
+# print(f'Sum: {lr.predict_proba(X_test_std[:3, :]).sum(axis= 1)}')
 
-print(f'ARG MAX: {lr.predict_proba(X_test_std[:3, :]).argmax(axis= 1)}') # check the max probability
+# print(f'ARG MAX: {lr.predict_proba(X_test_std[:3, :]).argmax(axis= 1)}') # check the max probability
 
-print(f'Obtaining the same by using the predict method {lr.predict(X_test_std[:3, :])}')
+# print(f'Obtaining the same by using the predict method {lr.predict(X_test_std[:3, :])}')
 
-# in order to take a single check the following example
-print(f'Single row: {lr.predict(X_test_std[0, :].reshape(1, -1))}')
-# original_coef = lr.coef_.copy()
-# original_intercept = lr.intercept_.copy()
-# print("Original Coefficients:\n", original_coef)
-# print("Original Intercept:\n", original_intercept)
+# # in order to take a single check the following example
+# print(f'Single row: {lr.predict(X_test_std[0, :].reshape(1, -1))}')
+# # original_coef = lr.coef_.copy()
+# # original_intercept = lr.intercept_.copy()
+# # print("Original Coefficients:\n", original_coef)
+# # print("Original Intercept:\n", original_intercept)
 
-# Example: Scale the coefficients by 0.5
-# modified_coef = original_coef * 8
-# modified_intercept = original_intercept # + 50  # Offset intercept
+# # Example: Scale the coefficients by 0.5
+# # modified_coef = original_coef * 8
+# # modified_intercept = original_intercept # + 50  # Offset intercept
 
-# lr.coef_ = modified_coef
-# lr.intercept_ = modified_intercept
-
-
-plot_decision_regions(X_combined_std, y_combined, classifier=lr, test_idx=range(105, 150))
-plt.xlabel('Petal length [standardized]')
-plt.ylabel('Petal width [standardized]')
-plt.legend(loc='upper left')
-plt.tight_layout()
-plt.show()
-
-weights, params = [], []
-# the following c parameter as it increse it should decrease the strenght of the regularization function
-for c in np.arange(-5, 5):
-    lr = LogisticRegression(C=10.**c, multi_class='ovr')
-    print(f'C value : {10.**c}')
-    lr.fit(X_train_std, y_train)
-    weights.append(lr.coef_[1])
-    params.append(10.**c)
-
-weights = np.array(weights)
-plt.plot(params, weights[:, 0], label='Petal length')
-plt.plot(params, weights[:, 1], linestyle='--', label='Petal width')
-plt.ylabel('Weight coefficient')
-plt.xlabel('C')
-plt.legend(loc='upper left')
-plt.xscale('log')
-plt.show()
+# # lr.coef_ = modified_coef
+# # lr.intercept_ = modified_intercept
 
 
-from sklearn.svm import SVC
-svm = SVC(kernel = 'linear', C=1.0, random_state=1)
-svm.fit(X_train_std, y_train)
-plot_decision_regions(X_combined_std, y_combined, classifier=svm, test_idx=range(105, 150))
-plt.xlabel('Petal length [standardized]')
-plt.ylabel('Petal width [standardized]')
-plt.legend(loc='upper left')
+# plot_decision_regions(X_combined_std, y_combined, classifier=lr, test_idx=range(105, 150))
+# plt.xlabel('Petal length [standardized]')
+# plt.ylabel('Petal width [standardized]')
+# plt.legend(loc='upper left')
+# plt.tight_layout()
+# plt.show()
+
+# weights, params = [], []
+# # the following c parameter as it increse it should decrease the strenght of the regularization function
+# for c in np.arange(-5, 5):
+#     lr = LogisticRegression(C=10.**c, multi_class='ovr')
+#     print(f'C value : {10.**c}')
+#     lr.fit(X_train_std, y_train)
+#     weights.append(lr.coef_[1])
+#     params.append(10.**c)
+
+# weights = np.array(weights)
+# plt.plot(params, weights[:, 0], label='Petal length')
+# plt.plot(params, weights[:, 1], linestyle='--', label='Petal width')
+# plt.ylabel('Weight coefficient')
+# plt.xlabel('C')
+# plt.legend(loc='upper left')
+# plt.xscale('log')
+# plt.show()
+
+
+# from sklearn.svm import SVC
+# svm = SVC(kernel = 'linear', C=1.0, random_state=1)
+# svm.fit(X_train_std, y_train)
+# plot_decision_regions(X_combined_std, y_combined, classifier=svm, test_idx=range(105, 150))
+# plt.xlabel('Petal length [standardized]')
+# plt.ylabel('Petal width [standardized]')
+# plt.legend(loc='upper left')
+# plt.tight_layout()
+# plt.show()
+
+from sklearn.linear_model import SGDClassifier
+ppn = SGDClassifier(loss='perceptron')
+lr = SGDClassifier(loss='log')
+svm = SGDClassifier(loss='hinge')
+
+import matplotlib.pyplot as plt
+import numpy as np
+np.random.seed(1)
+X_xor = np.random.randn(200, 2)
+y_xor = np.logical_xor(X_xor[:, 0] > 0, X_xor[:, 1] > 0)
+y_xor = np.where(y_xor, 1, 0)
+plt.scatter(X_xor[y_xor == 1, 0],
+            X_xor[y_xor == 1, 1],
+            c='royalblue', marker='s',
+            label='Class 1')
+plt.scatter(X_xor[y_xor == 0, 0],
+            X_xor[y_xor == 0, 1],
+            c='tomato', marker='o',
+            label='Class 0')
+plt.xlim([-3, 3])
+plt.ylim([-3, 3])
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.legend(loc='best')
 plt.tight_layout()
 plt.show()
