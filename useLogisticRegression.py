@@ -235,3 +235,14 @@ from sklearn import tree
 feature_names = ['Sepal length', 'Sepal width', 'Petal length', 'Petal width']
 tree.plot_tree(tree_model, feature_names=feature_names, filled=True)
 plt.show()
+
+
+from sklearn.ensemble import RandomForestClassifier
+forest = RandomForestClassifier(n_estimators=25, random_state=1, n_jobs=2)
+forest.fit(X_train, y_train)
+plot_decision_regions(X_combined, y_combined, classifier=forest, test_idx=range(105, 150))
+plt.xlabel('Petal length [cm]')
+plt.ylabel('Petal width [cm]')
+plt.legend(loc='upper left')
+plt.tight_layout()
+plt.show()
