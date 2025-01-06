@@ -206,12 +206,14 @@ plt.show()
 # plt.tight_layout()
 # plt.show()
 
-def entroypy(p):
-    return - p * np.log2(p) - (1 - p) * np.log2((1 - p))
+# def entroypy(p):
+#     return - p * np.log2(p) - (1 - p) * np.log2((1 - p))
 
-x = np.arange(0.0, 1.0, 0.01)
-ent = [entroypy(p) if p != 0 else None for p in x]
-plt.ylabel('Entropy')
-plt.xlabel('Class-membership probability p(i = 1)')
-plt.plot(x, ent)
-plt.show()
+# x = np.arange(0.0, 1.0, 0.01)
+# ent = [entroypy(p) if p != 0 else None for p in x]
+# plt.ylabel('Entropy')
+# plt.xlabel('Class-membership probability p(i = 1)')
+# plt.plot(x, ent)
+# plt.show()
+
+
